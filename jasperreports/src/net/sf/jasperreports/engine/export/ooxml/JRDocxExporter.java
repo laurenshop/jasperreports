@@ -471,7 +471,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 				null //address
 				);
 
-		exportGrid(pageGridLayout, null);
+		exportGrid(pageGridLayout, null, true);
 		
 		JRExportProgressMonitor progressMonitor = configuration.getProgressMonitor();
 		if (progressMonitor != null)
@@ -484,7 +484,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 	/**
 	 *
 	 */
-	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex) throws JRException
+	protected void exportGrid(JRGridLayout gridLayout, JRPrintElementIndex frameIndex, boolean toplevel) throws JRException
 	{
 		
 		CutsInfo xCuts = gridLayout.getXCuts();
@@ -534,7 +534,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 					pageFormat
 					);
 
-		tableHelper.exportHeader();
+		tableHelper.exportHeader(toplevel);
 		
 		boolean isFlexibleRowHeight = getCurrentItemConfiguration().isFlexibleRowHeight();
 
@@ -1346,7 +1346,7 @@ public class JRDocxExporter extends JRAbstractExporter<DocxReportConfiguration, 
 						pageIndex,
 						gridCell.getElementAddress()
 						);
-			exportGrid(layout, frameIndex);
+			exportGrid(layout, frameIndex, false);
 		}
 		finally
 		{

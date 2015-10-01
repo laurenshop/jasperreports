@@ -87,7 +87,7 @@ public class DocxTableHelper extends BaseHelper
 	/**
 	 * 
 	 */
-	public void exportHeader() 
+	public void exportHeader(boolean toplevel) 
 	{
 		write("  <w:tbl>\n");
 		write("   <w:tblPr>\n");
@@ -96,7 +96,8 @@ public class DocxTableHelper extends BaseHelper
 		write("   <w:tblGrid>\n");
 
 		int leftColumnWidth = xCuts.getCutOffset(1) - xCuts.getCutOffset(0);
-		leftColumnWidth -= Math.min(leftColumnWidth, pageFormat.getLeftMargin());
+		if (toplevel) 
+			leftColumnWidth -= Math.min(leftColumnWidth, pageFormat.getLeftMargin());
 		write("    <w:gridCol w:w=\"" + (leftColumnWidth == 0 ? 1 : LengthUtil.twip(leftColumnWidth)) + "\"/>\n");
 		
 		for(int col = 2; col < xCuts.size() - 1; col++)
@@ -105,7 +106,8 @@ public class DocxTableHelper extends BaseHelper
 		}
 		
 		int rightColumnWidth = xCuts.getCutOffset(xCuts.size() - 1) - xCuts.getCutOffset(xCuts.size() - 2);
-		rightColumnWidth -= Math.min(rightColumnWidth, pageFormat.getRightMargin());
+		if (toplevel)
+			rightColumnWidth -= Math.min(rightColumnWidth, pageFormat.getRightMargin());
 		write("    <w:gridCol w:w=\"" + (rightColumnWidth == 0 ? 1 : LengthUtil.twip(rightColumnWidth)) + "\"/>\n");
 		
 		write("   </w:tblGrid>\n");
